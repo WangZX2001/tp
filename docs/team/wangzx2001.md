@@ -146,7 +146,7 @@ Contributed documentation for:
 
 During the PE dry run, I helped to identify **10 bugs** in the other group's product that I was evaluating. This includes functional bugs, feature flaws, as well as documentation bugs.
 
-**Image showing PE-D bugs identified:** ![Zaixi PE-D reported bugs](../UML_diagrams/images/Zaxi_PE_reported_bugs.png)
+**Image showing PE-D bugs identified:** ![Zaixi PE-D reported bugs](../UML_diagrams/Zaxi_PE_reported_bugs.png)
 
 ---
 

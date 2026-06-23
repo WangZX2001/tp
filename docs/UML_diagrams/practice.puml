@@ -1,0 +1,26 @@
+@startuml
+participant ":PersonList" as personList
+participant "p:Person" as p
+participant "tag:Tag" as tag
+
+loop while hasRoom
+    create p
+    -> p : Person("Adam", "friend")
+
+    activate p
+    p -> p : name = "Adam"
+
+    create tag
+    p -> tag : Tag("friend")
+    activate tag
+    deactivate tag
+
+    p -> p : tag = new Tag("friend")
+    deactivate p
+
+    -> personList : addPerson(p)
+    activate personList
+    deactivate personList
+end
+
+@enduml
