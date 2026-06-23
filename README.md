@@ -1,66 +1,106 @@
-# FinBro
+# Finbro
 
-This is a project template for a greenfield Java project. It's named after the Java mascot _Duke_. Given below are instructions on how to use it.
+Finbro is a Java command-line personal finance tracker for recording expenses, reviewing spending, and staying aware of monthly budget limits. It is built as a CS2113-style team project with Gradle, JUnit 5, Checkstyle, text UI tests, user documentation, and developer documentation.
 
-## Setting up in Intellij
+## What Finbro does
 
-Prerequisites: JDK 17 (use the exact version), update Intellij to the most recent version.
+- Records expenses with amount, category, and date.
+- Supports both direct commands and guided walkthroughs for adding and deleting expenses.
+- Displays all expenses or expenses in a category, with optional sorting and month filtering.
+- Stores a monthly spending limit and warns when spending is close to or above the limit.
+- Converts selected expenses between supported currencies using an offline rate table.
+- Shows a text-based monthly spending visualization.
+- Saves data locally to `./data/finbro.txt` between sessions.
 
-1. **Ensure Intellij JDK 17 is defined as an SDK**, as described [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk) -- this step is not needed if you have used JDK 17 in a previous Intellij project.
-1. **Import the project _as a Gradle project_**, as described [here](https://se-education.org/guides/tutorials/intellijImportGradleProject.html).
-1. **Verify the setup**: After the importing is complete, locate the `src/main/java/seedu/duke/Duke.java` file, right-click it, and choose `Run Duke.main()`. If the setup is correct, you should see something like the below:
-   ```
-   > Task :compileJava
-   > Task :processResources NO-SOURCE
-   > Task :classes
-   
-   > Task :Duke.main()
-   Hello from
-    ____        _        
-   |  _ \ _   _| | _____ 
-   | | | | | | | |/ / _ \
-   | |_| | |_| |   <  __/
-   |____/ \__,_|_|\_\___|
-   
-   What is your name?
-   ```
-   Type some word and press enter to let the execution proceed to the end.
+## Quick start
 
-**Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
+### Prerequisites
 
-## Build automation using Gradle
+- Java 17 or later
+- Gradle wrapper included in this repository
 
-* This project uses Gradle for build automation and dependency management. It includes a basic build script as well (i.e. the `build.gradle` file).
-* If you are new to Gradle, refer to the [Gradle Tutorial at se-education.org/guides](https://se-education.org/guides/tutorials/gradle.html).
+### Run from source
 
-## Testing
+On Windows:
 
-### I/O redirection tests
+```bash
+.\gradlew.bat run
+```
 
-* To run _I/O redirection_ tests (aka _Text UI tests_), navigate to the `text-ui-test` and run the `runtest(.bat/.sh)` script.
+On macOS/Linux:
 
-### JUnit tests
+```bash
+./gradlew run
+```
 
-* A skeleton JUnit test (`src/test/java/seedu/duke/DukeTest.java`) is provided with this project template. 
-* If you are new to JUnit, refer to the [JUnit Tutorial at se-education.org/guides](https://se-education.org/guides/tutorials/junit.html).
+### Build a runnable JAR
 
-## Checkstyle
+```bash
+./gradlew shadowJar
+```
 
-* A sample CheckStyle rule configuration is provided in this project.
-* If you are new to Checkstyle, refer to the [Checkstyle Tutorial at se-education.org/guides](https://se-education.org/guides/tutorials/checkstyle.html).
+The generated JAR is available under `build/libs/`. Run it with:
 
-## CI using GitHub Actions
+```bash
+java -jar build/libs/Finbro.jar
+```
 
-The project uses [GitHub actions](https://github.com/features/actions) for CI. When you push a commit to this repo or PR against it, GitHub actions will run automatically to build and verify the code as updated by the commit/PR.
+## Basic commands
+
+| Command | Example | Purpose |
+| --- | --- | --- |
+| `help` | `help add` | Show the command list or details for one command. |
+| `add` | `add 12.50 food today` | Add an expense directly or start guided add mode. |
+| `delete` | `delete food 1` | Delete an expense directly or start guided delete mode. |
+| `view` | `view all -sort amount` | View expenses, with optional sorting and filtering. |
+| `limit` | `limit 500` | Set or view the monthly spending limit. |
+| `edit limit` | `edit limit` | Update the current limit interactively. |
+| `currency` | `currency` | Convert an existing expense between supported currencies. |
+| `visual` | `visual` | Show monthly spending as a text bar chart. |
+| `exit` | `exit` | Save data and close Finbro. |
+
+For full command syntax, examples, and troubleshooting, see the [User Guide](docs/UserGuide.md).
+
+## Project structure
+
+```text
+src/main/java/seedu/finbro/    Application source code
+src/test/java/seedu/finbro/    JUnit tests
+docs/                          User guide, developer guide, and diagrams
+text-ui-test/                  End-to-end text UI test assets
+config/checkstyle/             Checkstyle rules
+data/                          Local saved Finbro data
+```
+
+## Development
+
+Run the automated test suite:
+
+```bash
+./gradlew test
+```
+
+Run Checkstyle:
+
+```bash
+./gradlew checkstyleMain checkstyleTest
+```
+
+Run the text UI test:
+
+```bash
+cd text-ui-test
+./runtest.sh
+```
+
+On Windows, use `runtest.bat` instead.
 
 ## Documentation
 
-`/docs` folder contains a skeleton version of the project documentation.
+- [User Guide](docs/UserGuide.md)
+- [Developer Guide](docs/DeveloperGuide.md)
+- [About Us](docs/AboutUs.md)
 
-Steps for publishing documentation to the public: 
-1. If you are using this project template for an individual project, go your fork on GitHub.<br>
-   If you are using this project template for a team project, go to the team fork on GitHub.
-1. Click on the `settings` tab.
-1. Scroll down to the `GitHub Pages` section.
-1. Set the `source` as `master branch /docs folder`.
-1. Optionally, use the `choose a theme` button to choose a theme for your documentation.
+## Notes on saved data
+
+Finbro writes user data to `./data/finbro.txt`. The first line stores the monthly limit, and each following line stores one expense. Avoid editing this file manually, as malformed values may cause Finbro to skip invalid entries when loading data.
